@@ -1,22 +1,30 @@
 ﻿using DemoMinimalAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DemoMinimalAPI.Data {
-    public class MinimalContextDB : DbContext {
-        public MinimalContextDB(DbContextOptions<MinimalContextDB> options) : base(options) { }
+namespace DemoMinimalAPI.Data;
 
-        public DbSet<Fornecedor> Fornecedores { get; set; }
+public class MinimalContextDb : DbContext {
+    public MinimalContextDb(DbContextOptions<MinimalContextDb> options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.Entity<Fornecedor>().HasKey(p => p.Id);
+    public DbSet<Supplier> Suppliers { get; set; }
 
-            modelBuilder.Entity<Fornecedor>().Property(p => p.Nome).IsRequired().HasColumnType("varchar(200)");
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        modelBuilder.Entity<Supplier>()
+            .HasKey(p => p.Id);
 
-            modelBuilder.Entity<Fornecedor>().Property(p => p.Documento).IsRequired().HasColumnType("varchar(14)");
+        modelBuilder.Entity<Supplier>()
+            .Property(p => p.Name)
+            .IsRequired()
+            .HasColumnType("varchar(200)");
 
-            modelBuilder.Entity<Fornecedor>().ToTable("Fornecedores");
+        modelBuilder.Entity<Supplier>()
+            .Property(p => p.Document)
+            .IsRequired()
+            .HasColumnType("varchar(14)");
 
-            base.OnModelCreating(modelBuilder);
-        }
+        modelBuilder.Entity<Supplier>()
+            .ToTable("Suppliers");
+
+        base.OnModelCreating(modelBuilder);
     }
 }
